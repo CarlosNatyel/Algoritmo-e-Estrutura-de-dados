@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_FRUTAS 100
-
 struct Fruta {
     char nome[50];
     char cor[20];
@@ -11,28 +9,25 @@ struct Fruta {
     int quantidade;
 };
 
-int cadastrar_fruta(struct Fruta frutas[], int num_frutas) {
-    if (num_frutas >= MAX_FRUTAS) {
-        printf("Limite máximo de frutas cadastradas atingido.\n");
-        return num_frutas;
-    }
+void cadastrar_fruta(struct Fruta** frutas, int* num_frutas) {
+    (*num_frutas)++;
+    *frutas = (struct Fruta*)realloc(*frutas, (*num_frutas) * sizeof(struct Fruta));
+    struct Fruta* nova_fruta = &((*frutas)[*num_frutas - 1]);
 
     printf("Digite o nome da fruta: ");
-    scanf("%s", frutas[num_frutas].nome);
+    scanf("%s", nova_fruta->nome);
 
     printf("Digite a cor da fruta: ");
-    scanf("%s", frutas[num_frutas].cor);
+    scanf("%s", nova_fruta->cor);
 
     printf("Digite o sabor da fruta: ");
-    scanf("%s", frutas[num_frutas].sabor);
+    scanf("%s", nova_fruta->sabor);
 
     printf("Digite a quantidade da fruta: ");
-    scanf("%d", &frutas[num_frutas].quantidade);
-
-    return num_frutas + 1;
+    scanf("%d", &nova_fruta->quantidade);
 }
 
-void listar_frutas(const struct Fruta frutas[], int num_frutas) {
+void listar_frutas(const struct Fruta* frutas, int num_frutas) {
     if (num_frutas == 0) {
         printf("Nenhuma fruta cadastrada ainda.\n");
         return;
@@ -49,7 +44,7 @@ void listar_frutas(const struct Fruta frutas[], int num_frutas) {
     }
 }
 
-void buscar_fruta_por_nome(const struct Fruta frutas[], int num_frutas, const char* nome) {
+void buscar_fruta_por_nome(const struct Fruta* frutas, int num_frutas, const char* nome) {
     int encontradas = 0;
 
     for (int i = 0; i < num_frutas; i++) {
@@ -70,7 +65,7 @@ void buscar_fruta_por_nome(const struct Fruta frutas[], int num_frutas, const ch
 }
 
 int main() {
-    struct Fruta frutas[MAX_FRUTAS];
+    struct Fruta* frutas = NULL;
     int num_frutas = 0;
     char nome_busca[50];
 
@@ -86,7 +81,7 @@ int main() {
 
         switch (opcao) {
             case 1:
-                num_frutas = cadastrar_fruta(frutas, num_frutas);
+                cadastrar_fruta(&frutas, &num_frutas);
                 break;
             case 2:
                 listar_frutas(frutas, num_frutas);
@@ -106,6 +101,8 @@ int main() {
 
         printf("\n");
     } while (opcao != 4);
+
+    free(frutas);
 
     return 0;
 }
