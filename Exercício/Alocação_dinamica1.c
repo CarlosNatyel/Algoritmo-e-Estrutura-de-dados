@@ -25,7 +25,7 @@ int main() {
     }
     printf("\n");
 
-    // Remember to free the dynamically allocated memory for the result vector
+    
     free(resultado);
 
     return 0;
