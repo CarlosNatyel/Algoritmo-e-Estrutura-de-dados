@@ -21,9 +21,17 @@ void imprimeProfessor(Professor *Prof) {
     printf("Nome do professor: %s, Carga Horária: %.2f, Disciplina: %s\n", Prof->nome, Prof->horas, Prof->disciplina);
 }
 
+void alteraHorasProfessor(Professor *Prof) {
+    printf("Digite a nova carga horária: ");
+    scanf("%f", &Prof->horas);
+}
+
 int main() {
     Professor Prof;
     preencheProfessor(&Prof);
+    imprimeProfessor(&Prof);
+
+    alteraHorasProfessor(&Prof);
     imprimeProfessor(&Prof);
 
     return 0;
