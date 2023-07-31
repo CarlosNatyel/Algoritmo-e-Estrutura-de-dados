@@ -36,5 +36,5 @@ int main() {
 
     return 0;
 }
-//eu apenas tirei um erro de digitação no printf da linha 12 *
+//eu apenas tirei um erro de digitação  dentro do printf
 
