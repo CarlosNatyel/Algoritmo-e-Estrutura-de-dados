@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 typedef struct aluno{
-    char nome[50];
+    char nome[60];
     float nota1;
     float nota2;
     float nota3;
@@ -11,15 +11,15 @@ typedef struct aluno{
 int main() {
     
     FILE *arquivo;
-    char nomeArquivo[50];
+    char nomearquivo[60];
     int d;
     
     printf("Digite o nome do arquivo: ");
-    scanf(" %[^\n]", nomeArquivo);
+    scanf(" %[^\n]", nomearquivo);
     
-    arquivo = fopen(nomeArquivo, "w");
+    arquivo = fopen(nomearquivo, "w");
     if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo!");
+        printf("Erro ao abrir o arquivo");
         exit(1);
     }
 
