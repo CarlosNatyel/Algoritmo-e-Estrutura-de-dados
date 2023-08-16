@@ -24,9 +24,9 @@ void deposita(ContaBancaria* conta, double valor) {
 int saca(ContaBancaria* conta, double valor) {
     if (conta->saldo >= valor) {
         conta->saldo -= valor;
-        return 1;  // Saque realizado com sucesso
+        return 1;  
     } else {
-        return 0;  // Saldo insuficiente
+        return 0;  
     }
 }
 
@@ -34,9 +34,9 @@ int transfere(ContaBancaria* origem, ContaBancaria* destino, double valor) {
     if (origem->saldo >= valor) {
         origem->saldo -= valor;
         destino->saldo += valor;
-        return 1;  // Transferência realizada com sucesso
+        return 1;
     } else {
-        return 0;  // Saldo insuficiente para transferência
+        return 0;  
     }
 }
 
