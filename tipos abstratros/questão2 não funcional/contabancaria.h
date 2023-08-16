@@ -1,7 +1,6 @@
 #ifndef CONTABANCARIA_H
 #define CONTABANCARIA_H
-// O #ifndef é uma diretiva de pré-processador usada para verificar se um símbolo já foi definido.
-// No caso, estamos verificando se o símbolo CONTABANCARIA_H já foi definido. 
+// verificando se o símbolo CONTABANCARIA_H já foi definido. 
 typedef struct {
     char titular[100];
     int numero;
