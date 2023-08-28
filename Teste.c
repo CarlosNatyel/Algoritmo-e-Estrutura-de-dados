@@ -1,3 +1,5 @@
+//Apenas o programa de busca binaria(tentativa)
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
