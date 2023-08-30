@@ -1,56 +1,99 @@
 
+// Declaração dos protótipos das novas funções
+void lerNomesDocumentosOrdenados(char ***nomes, char ***documentos, int *nfuncionarios);
+int buscaBinaria(char **dados, int n, const char *alvo);
 
-// Função de comparação para qsort
-int compare(const void *a, const void *b) {
-    return strcmp(((Funcionario *)a)->nome, ((Funcionario *)b)->nome);
-}
-
-// Função para ler somente os nomes e documentos do arquivo e retornar ordenado
-Funcionario *ler_nomes_documentos_ordenados(FILE *arquivo, int nfuncionarios) {
-    Funcionario *funcionarios = (Funcionario *) malloc(nfuncionarios * sizeof(Funcionario));
-    if (funcionarios == NULL) {
-        printf("Erro ao alocar memória");
-        exit(1);
-    }
-
-    arquivo = fopen("funcionario.txt", "rt");
-    if (arquivo == NULL) {
+// Função para ler os nomes e documentos do arquivo e retornar em vetores ordenados
+void lerNomesDocumentosOrdenados(char ***nomes, char ***documentos, int *nfuncionarios)
+{
+    FILE *arquivo = fopen("funcionario.txt", "rt");
+    if (arquivo == NULL)
+    {
         printf("Erro ao abrir o arquivo!\n");
         exit(1);
     }
 
-    for (int i = 0; i < nfuncionarios; i++) {
-        fscanf(arquivo, "%s", funcionarios[i].nome);
-        fscanf(arquivo, "%s", funcionarios[i].cargo);
-        fscanf(arquivo, "%s", funcionarios[i].documento);
+    int nlinhas = quantifica_funcionarios(arquivo);
+    *nfuncionarios = nlinhas;
+
+    *nomes = (char **)malloc(nlinhas * sizeof(char *));
+    *documentos = (char **)malloc(nlinhas * sizeof(char *));
+    if (*nomes == NULL || *documentos == NULL)
+    {
+        printf("Erro ao alocar memória\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < nlinhas; i++)
+    {
+        (*nomes)[i] = (char *)malloc(21 * sizeof(char));
+        (*documentos)[i] = (char *)malloc(21 * sizeof(char));
+        if ((*nomes)[i] == NULL || (*documentos)[i] == NULL)
+        {
+            printf("Erro ao alocar memória\n");
+            exit(1);
+        }
+
+        fscanf(arquivo, " %[^\n]", (*nomes)[i]);
+        fscanf(arquivo, " %[^\n]", (*documentos)[i]);
+        // Ignorar a linha de cargo
+        fscanf(arquivo, "%*[^\n]");
     }
 
     fclose(arquivo);
 
-    // Ordena os funcionários pelo nome usando qsort
-    qsort(funcionarios, nfuncionarios, sizeof(Funcionario), compare);
-
-    return funcionarios;
+    // Ordenar nomes usando qsort
+    qsort(*nomes, nlinhas, sizeof(char *), compararStrings);
+    // Ordenar documentos usando qsort
+    qsort(*documentos, nlinhas, sizeof(char *), compararStrings);
 }
 
-// Função de busca binária para encontrar um funcionário pelo nome
-int busca_binaria(Funcionario *funcionarios, int nfuncionarios, const char *nome) {
-    int esquerda = 0, direita = nfuncionarios - 1;
-    
-    while (esquerda <= direita) {
+// Função de busca binária
+int buscaBinaria(char **dados, int n, const char *alvo)
+{
+    int esquerda = 0;
+    int direita = n - 1;
+
+    while (esquerda <= direita)
+    {
         int meio = esquerda + (direita - esquerda) / 2;
-        int comparacao = strcmp(funcionarios[meio].nome, nome);
-        
-        if (comparacao == 0) {
-            return meio; // Funcionário encontrado
+        int cmp = strcmp(dados[meio], alvo);
+
+        if (cmp == 0)
+        {
+            return meio; // Encontrado
         }
-        else if (comparacao < 0) {
-            esquerda = meio + 1; // Procura na metade direita
+        else if (cmp < 0)
+        {
+            esquerda = meio + 1; // Procurar na metade direita
         }
-        else {
-            direita = meio - 1; // Procura na metade esquerda
+        else
+        {
+            direita = meio - 1; // Procurar na metade esquerda
         }
     }
 
-    return -1; // Funcionário não encontrado
+    return -1; // Não encontrado
 }
+
+// ...
+
+int main()
+{
+    // ...
+
+    char **nomes;
+    char **documentos;
+    int nfuncionarios;
+
+    lerNomesDocumentosOrdenados(&nomes, &documentos, &nfuncionarios);
+
+    // ... Utilize os vetores "nomes" e "documentos" conforme necessário ...
+
+    for (int i = 0; i < nfuncionarios; i++)
+    {
+        free(nomes[i]);
+        free(documentos[i]);
+    }
+    free(nomes);
+    free(documentos);
