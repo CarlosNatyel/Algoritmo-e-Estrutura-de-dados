@@ -76,11 +76,11 @@ int buscaBinaria(char **dados, int n, const char *alvo)
     return -1; // Não encontrado
 }
 
-// ...
+
 
 int main()
 {
-    // ...
+   
 
     char **nomes;
     char **documentos;
@@ -88,7 +88,7 @@ int main()
 
     lerNomesDocumentosOrdenados(&nomes, &documentos, &nfuncionarios);
 
-    // ... Utilize os vetores "nomes" e "documentos" conforme necessário ...
+   
 
     for (int i = 0; i < nfuncionarios; i++)
     {
