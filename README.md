@@ -47,4 +47,23 @@ void pilha_push(Pilha*p,float v){
         free(p);
     }
 }
+int main() {
+    Pilha* minhaPilha = pilha_cria();
+
+    // Testando a pilha
+    printf("Empilhando valores...\n");
+    pilha_push(minhaPilha, 10.5);
+    pilha_push(minhaPilha, 20.3);
+    pilha_push(minhaPilha, 5.0);
+
+    printf("Desempilhando valores...\n");
+    while (!pilha_vazia(minhaPilha)) {
+        float valor = pilha_pop(minhaPilha);
+        printf("Valor desempilhado: %.2f\n", valor);
+    }
+
+    pilha_libera(minhaPilha);
+
+    return 0;
+}
 
